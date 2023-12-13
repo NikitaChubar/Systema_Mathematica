@@ -15,10 +15,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.http import HttpResponseNotFound
 from django.urls import path, include
 
-
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('main_page/', include('main_page.urls'))
+    path('admin/', admin.site.urls, name='admin'),
+    path('main_page/', include('main_page.urls')),
+    path('workspace/', include('workspace.urls')),
 ]
+
+
+# Функция представления страницы 404
+def handler404(request, exception):
+    page = '<h1>Ошибка 404. Page not found.</h1>'
+    page += 'У нас нет такой страницы. Скорее всего, вы перешли по нерабочей ссылке.'
+    return HttpResponseNotFound(page)
