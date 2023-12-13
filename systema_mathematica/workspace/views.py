@@ -3,8 +3,12 @@ from django.shortcuts import render
 
 
 def graph(request):
-    return HttpResponse('<h1>Граф</h1>')
+    context = {'check': 'Это строка для проверки работы контекста'}
+    template_name = 'workspace/graph_page.html'
+    return render(request, template_name, context)
 
 
 def article(request, title):
-    return HttpResponse(f'<h1>Заголовок статьи: {title}</h1>')
+    context = {'title': title}
+    template_name = 'workspace/article_page.html'
+    return render(request, template_name, context)

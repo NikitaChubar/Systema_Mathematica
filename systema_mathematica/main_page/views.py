@@ -1,6 +1,7 @@
-from django.http import HttpResponse
 from django.shortcuts import render
 
 
 def index(request):
-    return HttpResponse("<h1>Главная страница, мазафака!</h1>")
+    context = None
+    template_name = 'main_page/main_page.html'
+    return render(request, template_name, context)

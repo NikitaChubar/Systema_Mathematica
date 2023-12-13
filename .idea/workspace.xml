@@ -14,6 +14,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -33,6 +34,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "last_opened_file_path": "C:/Users/Никита/Моя папка/My Python Projects/Systema Mathematica/systema_mathematica/systema_mathematica"
@@ -41,6 +43,9 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Никита\Моя папка\My Python Projects\Systema Mathematica\systema_mathematica\systema_mathematica" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Никита\Моя папка\My Python Projects\Systema Mathematica\systema_mathematica\main_page\templates\main_page" />
     </key>
   </component>
   <component name="RunManager" selected="Python.systema_mathematica">
