@@ -1,10 +1,179 @@
+{% load static %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Graph</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <title>Граф</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f6f6f6;
+            color: #333;
+        }
+
+        .header {
+            width: 100%;
+            height: 50px;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 20px;
+        }
+
+        .header__button {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+
+        .main {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        svg {
+            border: 1px solid #ccc; /* Добавьте границу, если необходимо */
+        }
+
+        #canvas-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-    <p>{{ check }}</p>
+    <header class="header">
+        <a class="header__button" href="">Главная страница</a>
+        <a class="header__button" href="workspace">Граф</a>
+        <a class="header__button" href="#">Регистрация</a>
+        <a class="header__button" href="admin">Админ панель</a>
+    </header>
+
+    <div id="canvas-container">
+        <svg width="1500" height="800"></svg>
+        <script>
+            var nodes = {{ nodes|safe }};
+            var links = {{ links|safe }};
+
+            var svg = d3.select("svg");
+
+            var zoom = d3.zoom()
+                .scaleExtent([0.1, 10])
+                .on("zoom", zoomed);
+
+            svg.call(zoom);
+
+            var simulation = d3.forceSimulation(nodes)
+                .force("link", d3.forceLink(links).id(d => d.id))
+                .force("charge", d3.forceManyBody().strength(-1500))
+                .force("center", d3.forceCenter(250, 150))
+                .force("collide", d3.forceCollide(12))
+                .force("x", d3.forceX(250).strength(0.1)) // Сила отталкивания от вертикальных границ
+                .force("y", d3.forceY(150).strength(0.1)) // Сила отталкивания от горизонтальных границ
+                .on("tick", ticked);
+
+            var g = svg.append("g");
+
+            var link = g.selectAll("line")
+                .data(links)
+                .enter().append("line")
+                .attr("stroke", "gray")
+                .attr("marker-end", "url(#arrowhead)");
+
+            var node = g.selectAll("circle")
+                .data(nodes)
+                .enter().append("circle")
+                .attr("r", 10)
+                .attr("fill", "black")
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended));
+
+            var text = g.selectAll("text")
+                .data(nodes)
+                .enter().append("text")
+                .text(d => d.label)
+                .attr("font-size", 12)
+                .attr("dx", 15)
+                .attr("dy", 4);
+
+            svg.append("defs").append("marker")
+                .attr("id", "arrowhead")
+                .attr("viewBox", "0 -5 10 10")
+                .attr("refX", 8)  // Сдвигаем стрелку влево
+                .attr("refY", 0)
+                .attr("orient", "auto")
+                .attr("markerWidth", 6)
+                .attr("markerHeight", 6)
+                .append("path")
+                    .attr("d", "M0,-5L10,0L0,5")
+                    .attr("fill", "gray");
+
+            function ticked() {
+                link
+                    .attr("x1", d => d.source.x)
+                    .attr("y1", d => d.source.y)
+                    .attr("x2", d => {
+                        // Корректируем координату x2 в зависимости от радиуса узла
+                        return d.target.x - (Math.cos(angle(d)) * 10);
+                    })
+                    .attr("y2", d => {
+                        // Корректируем координату y2 в зависимости от радиуса узла
+                        return d.target.y - (Math.sin(angle(d)) * 10);
+                    });
+
+                node
+                    .attr("cx", d => d.x)
+                    .attr("cy", d => d.y);
+
+                text
+                    .attr("x", d => d.x)
+                    .attr("y", d => d.y);
+            }
+
+            function angle(d) {
+                // Рассчитываем угол между узлами
+                return Math.atan2(d.target.y - d.source.y, d.target.x - d.source.x);
+            }
+
+            function dragstarted(d) {
+                if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+
+            function dragged(d) {
+                d.fx = d3.event.x;
+                d.fy = d3.event.y;
+            }
+
+            function dragended(d) {
+                if (!d3.event.active) simulation.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+            }
+
+            function zoomed() {
+                g.attr("transform", d3.event.transform);
+            }
+        </script>
+    </div>
+
+    <main>
+        <p>Ещё что-нибудь</p>
+    </main>
+
 </body>
 </html>

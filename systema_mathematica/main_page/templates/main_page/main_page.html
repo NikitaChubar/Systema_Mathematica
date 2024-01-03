@@ -1,11 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Главная страница</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой сайт</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f6f6f6;
+            color: #333;
+        }
+
+        .header {
+            width: 100%;
+            height: 50px;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 20px;
+        }
+
+        .header__button {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+
+        .main {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h1>Главная страница</h1>
-    Это главная страница сайта.
+    <header class="header">
+        <a class="header__button" href="">Главная страница</a>
+        <a class="header__button" href="workspace">Граф</a>
+        <a class="header__button" href="#">Регистрация</a>
+        <a class="header__button" href="admin">Админ панель</a>
+    </header>
+
+    <main class="main">
+        <h1>Добро пожаловать на мой сайт</h1>
+        <p>Текст главной страницы...</p>
+    </main>
 </body>
 </html>
